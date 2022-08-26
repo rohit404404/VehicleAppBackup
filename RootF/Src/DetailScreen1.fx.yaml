@@ -1,0 +1,2066 @@
+"DetailScreen1 As screen.'phoneDetailViewLayout_ver3.0'":
+
+    RectQuickActionBar2 As rectangle:
+        Height: =88
+        Width: =Parent.Width
+        ZIndex: =1
+
+    IconBackarrow1 As icon.ChevronLeft:
+        AccessibleLabel: =Self.Tooltip
+        Height: =88
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Navigate(BrowseScreen1, ScreenTransition.None)
+        PaddingBottom: =24
+        PaddingLeft: =24
+        PaddingRight: =24
+        PaddingTop: =24
+        TabIndex: =0
+        Tooltip: ="Back to list"
+        Width: =88
+        ZIndex: =2
+
+    IconEdit1 As icon.Edit:
+        AccessibleLabel: =Self.Tooltip
+        DisplayMode: =If(DataSourceInfo([@envInspectionVehicleList], DataSourceInfo.EditPermission), DisplayMode.Edit, DisplayMode.Disabled)
+        Height: =88
+        Icon: =Icon.Edit
+        OnSelect: =EditForm(EditForm1);Navigate(EditScreen1, ScreenTransition.None)
+        PaddingBottom: =24
+        PaddingLeft: =24
+        PaddingRight: =24
+        PaddingTop: =24
+        TabIndex: =0
+        Tooltip: ="Edit this item"
+        Width: =88
+        X: =Parent.Width - Self.Width
+        ZIndex: =3
+
+    IconDelete1 As icon.Trash:
+        AccessibleLabel: =Self.Tooltip
+        DisplayMode: =If(!IsBlank(BrowseGallery1.Selected) && DataSourceInfo([@envInspectionVehicleList], DataSourceInfo.DeletePermission), DisplayMode.Edit, DisplayMode.Disabled)
+        Height: =88
+        Icon: =Icon.Trash
+        OnSelect: =Remove([@envInspectionVehicleList], BrowseGallery1.Selected); If (IsEmpty(Errors([@envInspectionVehicleList], BrowseGallery1.Selected)), Back())
+        PaddingBottom: =24
+        PaddingLeft: =24
+        PaddingRight: =24
+        PaddingTop: =24
+        TabIndex: =0
+        Tooltip: ="Delete this item"
+        Width: =88
+        X: =Parent.Width - IconEdit1.Width - Self.Width
+        ZIndex: =4
+
+    LblAppName2 As label:
+        Height: =88
+        Size: =27
+        Text: ="Vehicle"
+        Width: =Parent.Width - Self.X - IconDelete1.Width - IconEdit1.Width
+        Wrap: =false
+        X: =80
+        ZIndex: =5
+
+    DetailForm1 As formViewer:
+        BorderThickness: =2
+        DataSource: =[@envInspectionVehicleList]
+        Height: =Parent.Height - DetailForm1.Y
+        Item: =BrowseGallery1.Selected
+        Width: =Parent.Width
+        Y: =RectQuickActionBar2.Y + RectQuickActionBar2.Height
+        ZIndex: =6
+
+        "'What are you inspecting?_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =Solid
+            BorderThickness: =1
+            DataField: ="Title"
+            Default: =ThisItem.'What are you inspecting?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Title")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =true
+            Width: =638
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey1 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue1 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =RGBA(255, 255, 255, 1)
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey1.Y + DataCardKey1.Height + 5
+                ZIndex: =2
+
+        PDFLink_DataCard1 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="PDFLink"
+            Default: =ThisItem.PDFLink
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"PDFLink")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey81 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: ="PDF Extract"
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            HtmlText2 As htmlViewer:
+                AutoHeight: =true
+                Color: =RGBA(39, 113, 194, 1)
+                HtmlText: =ThisItem.PDFLink
+                Size: =wrapLabel.Size
+                Width: =560
+                X: =27
+                Y: =40
+                ZIndex: =2
+
+        "'Which Vehicle?_DataCard1' As typedDataCard.comboBoxViewCard":
+            BorderColor: =RGBA(118, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            DataField: ="AssetType"
+            Default: =ThisItem.'Which Vehicle?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"AssetType")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue2.Selected
+            Width: =638
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey2 As label:
+                AutoHeight: =true
+                Fill: =RGBA(230, 230, 230, 1)
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue2 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                BorderThickness: =1
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =DisplayMode.View
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Which Vehicle?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Which Vehicle?',DataCardValue2.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey2.Y + DataCardKey2.Height + 5
+                ZIndex: =2
+
+            ErrorMessage1 As label:
+                AutoHeight: =true
+                Fill: =RGBA(230, 230, 230, 1)
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue2.Y + DataCardValue2.Height
+                ZIndex: =3
+
+            StarVisible1 As label:
+                Align: =Align.Center
+                Fill: =RGBA(230, 230, 230, 1)
+                Height: =DataCardKey2.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey2.Y
+                ZIndex: =4
+
+        InspectionDate_DataCard1 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="InspectionDate"
+            Default: =ThisItem.'Inspection Date'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"InspectionDate")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =true
+            Width: =640
+            X: =0
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey71 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue71 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey71.Y + DataCardKey71.Height + 5
+                ZIndex: =2
+
+        "'What is the odometer reading?_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question1"
+            Default: =ThisItem.'What is the odometer reading?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question1")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =638
+            X: =0
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey3 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue3 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey3.Y + DataCardKey3.Height + 5
+                ZIndex: =2
+
+        "'At what odometer reading is the next service?_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question2"
+            Default: =ThisItem.'At what odometer reading is the next service?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question2")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =638
+            X: =0
+            Y: =5
+            ZIndex: =1
+
+            DataCardKey4 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue4 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey4.Y + DataCardKey4.Height + 5
+                ZIndex: =2
+
+        "'Are there any warning lights on dash?_DataCard1' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question3"
+            Default: =ThisItem.'Are there any warning lights on dash?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question3")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue5.Selected
+            Width: =638
+            X: =0
+            Y: =6
+            ZIndex: =1
+
+            DataCardKey5 As label:
+                AutoHeight: =true
+                Fill: =RGBA(230, 230, 230, 1)
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue5 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are there any warning lights on dash?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are there any warning lights on dash?',DataCardValue5.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey5.Y + DataCardKey5.Height + 5
+                ZIndex: =2
+
+            ErrorMessage2 As label:
+                AutoHeight: =true
+                Fill: =RGBA(230, 230, 230, 1)
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue5.Y + DataCardValue5.Height
+                ZIndex: =3
+
+            StarVisible2 As label:
+                Align: =Align.Center
+                Fill: =RGBA(230, 230, 230, 1)
+                Height: =DataCardKey5.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey5.Y
+                ZIndex: =4
+
+        "'Please describe faultwarning light._DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question4"
+            Default: =ThisItem.'Please describe fault\warning light.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question4")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =638
+            X: =0
+            Y: =7
+            ZIndex: =1
+
+            DataCardKey6 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue6 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey6.Y + DataCardKey6.Height + 5
+                ZIndex: =2
+
+        "'Is the vehicle tidy inside & out_DataCard1' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question5"
+            Default: =ThisItem.'Is the vehicle tidy inside & out'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question5")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue7.Selected
+            Width: =638
+            X: =0
+            Y: =8
+            ZIndex: =1
+
+            DataCardKey7 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue7 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Is the vehicle tidy inside & out')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Is the vehicle tidy inside & out',DataCardValue7.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey7.Y + DataCardKey7.Height + 5
+                ZIndex: =2
+
+            ErrorMessage3 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue7.Y + DataCardValue7.Height
+                ZIndex: =3
+
+            StarVisible3 As label:
+                Align: =Align.Center
+                Height: =DataCardKey7.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey7.Y
+                ZIndex: =4
+
+        "'Why is the vehicle untidy?_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question6"
+            Default: =ThisItem.'Why is the vehicle untidy?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question6")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =638
+            X: =0
+            Y: =9
+            ZIndex: =1
+
+            DataCardKey8 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue8 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey8.Y + DataCardKey8.Height + 5
+                ZIndex: =2
+
+        "'Do the lights, indicators, horn, reversing beeper, rotating beacons, and UHF work?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question7"
+            Default: =ThisItem.'Do the lights, indicators, horn, reversing beeper, rotating beacons, and UHF work?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question7")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue45.Selected
+            Width: =640
+            X: =0
+            Y: =10
+            ZIndex: =1
+
+            DataCardKey45 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue45 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Do the lights, indicators, horn, reversing beeper, rotating beacons, and UHF work?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Do the lights, indicators, horn, reversing beeper, rotating beacons, and UHF work?',DataCardValue45.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey45.Y + DataCardKey45.Height + 5
+                ZIndex: =2
+
+            ErrorMessage40 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue45.Y + DataCardValue45.Height
+                ZIndex: =3
+
+            StarVisible40 As label:
+                Align: =Align.Center
+                Height: =DataCardKey45.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey45.Y
+                ZIndex: =4
+
+        "'Please describe fault with lights, indicators, horn, reversing beeper or UHF work._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question8"
+            Default: =ThisItem.'Please describe fault with lights, indicators, horn, reversing beeper or UHF work.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question8")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =11
+            ZIndex: =1
+
+            DataCardKey46 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue46 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey46.Y + DataCardKey46.Height + 5
+                ZIndex: =2
+
+        "'Is the spill kit and first aid kit found where the decals are located. And are the decals in good condition?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question9"
+            Default: =ThisItem.'Is the spill kit and first aid kit found where the decals are located. And are the decals in good condition?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question9")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue47.Selected
+            Width: =640
+            X: =0
+            Y: =12
+            ZIndex: =1
+
+            DataCardKey47 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue47 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Is the spill kit and first aid kit found where the decals are located. And are the decals in good condition?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Is the spill kit and first aid kit found where the decals are located. And are the decals in good condition?',DataCardValue47.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey47.Y + DataCardKey47.Height + 5
+                ZIndex: =2
+
+            ErrorMessage41 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue47.Y + DataCardValue47.Height
+                ZIndex: =3
+
+            StarVisible41 As label:
+                Align: =Align.Center
+                Height: =DataCardKey47.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey47.Y
+                ZIndex: =4
+
+        "'Please describe issue with spill kits or fire extinguishers_DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question10"
+            Default: =ThisItem.'Please describe issue with spill kits or fire extinguishers'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question10")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =13
+            ZIndex: =1
+
+            DataCardKey48 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue48 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey48.Y + DataCardKey48.Height + 5
+                ZIndex: =2
+
+        "'Are the fire extinguishers in charge and inspection tags stamped within the last six months?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question11"
+            Default: =ThisItem.'Are the fire extinguishers in charge and inspection tags stamped within the last six months?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question11")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue49.Selected
+            Width: =640
+            X: =0
+            Y: =14
+            ZIndex: =1
+
+            DataCardKey49 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue49 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are the fire extinguishers in charge and inspection tags stamped within the last six months?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are the fire extinguishers in charge and inspection tags stamped within the last six months?',DataCardValue49.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey49.Y + DataCardKey49.Height + 5
+                ZIndex: =2
+
+            ErrorMessage42 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue49.Y + DataCardValue49.Height
+                ZIndex: =3
+
+            StarVisible42 As label:
+                Align: =Align.Center
+                Height: =DataCardKey49.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey49.Y
+                ZIndex: =4
+
+        "'When are the fire extinguishers last inspected?_DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question12"
+            Default: =ThisItem.'When are the fire extinguishers last inspected?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question12")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =15
+            ZIndex: =1
+
+            DataCardKey50 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue50 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey50.Y + DataCardKey50.Height + 5
+                ZIndex: =2
+
+        "'Are the wheel jack, brace and breakdown triangles located on the vehicle? (Note: LV''s don''t need triangles)_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question13"
+            Default: |-
+                =ThisItem.'Are the wheel jack, brace and breakdown triangles located on the vehicle? (Note: LV''s don''t need triangles)'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question13")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue51.Selected
+            Width: =640
+            X: =0
+            Y: =16
+            ZIndex: =1
+
+            DataCardKey51 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue51 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: |-
+                    =Choices([@envInspectionVehicleList].'Are the wheel jack, brace and breakdown triangles located on the vehicle? (Note: LV''s don''t need triangles)')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: |-
+                    =Choices(envInspectionVehicleList.'Are the wheel jack, brace and breakdown triangles located on the vehicle? (Note: LV''s don''t need triangles)',DataCardValue51.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey51.Y + DataCardKey51.Height + 5
+                ZIndex: =2
+
+            ErrorMessage43 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue51.Y + DataCardValue51.Height
+                ZIndex: =3
+
+            StarVisible43 As label:
+                Align: =Align.Center
+                Height: =DataCardKey51.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey51.Y
+                ZIndex: =4
+
+        "'Please describe problem with wheel jack, brace or breakdown triangles._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question14"
+            Default: =ThisItem.'Please describe problem with wheel jack, brace or breakdown triangles.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question14")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =17
+            ZIndex: =1
+
+            DataCardKey52 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue52 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey52.Y + DataCardKey52.Height + 5
+                ZIndex: =2
+
+        "'Are there any problems with the steering or brakes?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question15"
+            Default: =ThisItem.'Are there any problems with the steering or brakes?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question15")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue53.Selected
+            Width: =640
+            X: =0
+            Y: =18
+            ZIndex: =1
+
+            DataCardKey53 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue53 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are there any problems with the steering or brakes?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are there any problems with the steering or brakes?',DataCardValue53.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey53.Y + DataCardKey53.Height + 5
+                ZIndex: =2
+
+            ErrorMessage44 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue53.Y + DataCardValue53.Height
+                ZIndex: =3
+
+            StarVisible44 As label:
+                Align: =Align.Center
+                Height: =DataCardKey53.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey53.Y
+                ZIndex: =4
+
+        "'Please describe problem with steering or brakes._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question16"
+            Default: =ThisItem.'Please describe problem with steering or brakes.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question16")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =19
+            ZIndex: =1
+
+            DataCardKey54 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue54 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey54.Y + DataCardKey54.Height + 5
+                ZIndex: =2
+
+        "'Are the tyresrims including the spare in good condition and are all the wheel nut indicators present?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question17"
+            Default: =ThisItem.'Are the tyres\rims including the spare in good condition and are all the wheel nut indicators present?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question17")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue55.Selected
+            Width: =640
+            X: =0
+            Y: =20
+            ZIndex: =1
+
+            DataCardKey55 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue55 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are the tyres\rims including the spare in good condition and are all the wheel nut indicators present?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are the tyres\rims including the spare in good condition and are all the wheel nut indicators present?',DataCardValue55.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey55.Y + DataCardKey55.Height + 5
+                ZIndex: =2
+
+            ErrorMessage45 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue55.Y + DataCardValue55.Height
+                ZIndex: =3
+
+            StarVisible45 As label:
+                Align: =Align.Center
+                Height: =DataCardKey55.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey55.Y
+                ZIndex: =4
+
+        "'Please describe problem with tyres wheels or wheel nut indicators._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question18"
+            Default: =ThisItem.'Please describe problem with tyres wheels or wheel nut indicators.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question18")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =21
+            ZIndex: =1
+
+            DataCardKey56 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue56 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey56.Y + DataCardKey56.Height + 5
+                ZIndex: =2
+
+        "'Is the engine oil and coolant in the normal range?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question19"
+            Default: =ThisItem.'Is the engine oil and coolant in the normal range?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question19")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue57.Selected
+            Width: =640
+            X: =0
+            Y: =22
+            ZIndex: =1
+
+            DataCardKey57 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue57 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Is the engine oil and coolant in the normal range?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Is the engine oil and coolant in the normal range?',DataCardValue57.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey57.Y + DataCardKey57.Height + 5
+                ZIndex: =2
+
+            ErrorMessage46 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue57.Y + DataCardValue57.Height
+                ZIndex: =3
+
+            StarVisible46 As label:
+                Align: =Align.Center
+                Height: =DataCardKey57.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey57.Y
+                ZIndex: =4
+
+        "'Please describe problem with engine oil or coolant._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question20"
+            Default: =ThisItem.'Please describe problem with engine oil or coolant.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question20")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =23
+            ZIndex: =1
+
+            DataCardKey58 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue58 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey58.Y + DataCardKey58.Height + 5
+                ZIndex: =2
+
+        "'Are the fan belt(s )battery(s), battery isolator(s) in service condition?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question21"
+            Default: =ThisItem.'Are the fan belt(s )battery(s), battery isolator(s) in service condition?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question21")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue59.Selected
+            Width: =640
+            X: =0
+            Y: =24
+            ZIndex: =1
+
+            DataCardKey59 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue59 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are the fan belt(s )battery(s), battery isolator(s) in service condition?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are the fan belt(s )battery(s), battery isolator(s) in service condition?',DataCardValue59.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey59.Y + DataCardKey59.Height + 5
+                ZIndex: =2
+
+            ErrorMessage47 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue59.Y + DataCardValue59.Height
+                ZIndex: =3
+
+            StarVisible47 As label:
+                Align: =Align.Center
+                Height: =DataCardKey59.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey59.Y
+                ZIndex: =4
+
+        "'Please describe problem with fan belt(s )battery(s) or  battery isolator(s)._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question22"
+            Default: =ThisItem.'Please describe problem with fan belt(s )battery(s) or  battery isolator(s).'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question22")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =25
+            ZIndex: =1
+
+            DataCardKey60 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue60 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey60.Y + DataCardKey60.Height + 5
+                ZIndex: =2
+
+        "'Is there any physical damagefaults with the vehicle inside or out?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question23"
+            Default: =ThisItem.'Is there any physical damage\faults with the vehicle inside or out?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question23")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue61.Selected
+            Width: =640
+            X: =0
+            Y: =26
+            ZIndex: =1
+
+            DataCardKey61 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue61 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Is there any physical damage\faults with the vehicle inside or out?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Is there any physical damage\faults with the vehicle inside or out?',DataCardValue61.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey61.Y + DataCardKey61.Height + 5
+                ZIndex: =2
+
+            ErrorMessage48 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue61.Y + DataCardValue61.Height
+                ZIndex: =3
+
+            StarVisible48 As label:
+                Align: =Align.Center
+                Height: =DataCardKey61.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey61.Y
+                ZIndex: =4
+
+        "'Please describe damagefaults with the vehicle._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question24"
+            Default: =ThisItem.'Please describe damage\faults with the vehicle.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question24")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =27
+            ZIndex: =1
+
+            DataCardKey62 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue62 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                FontWeight: =FontWeight.Lighter
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey62.Y + DataCardKey62.Height + 5
+                ZIndex: =2
+
+        "'Is the trailer tow hitch in service condition?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question25"
+            Default: =ThisItem.'Is the trailer tow hitch in service condition?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question25")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue63.Selected
+            Width: =640
+            X: =0
+            Y: =28
+            ZIndex: =1
+
+            DataCardKey63 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue63 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Is the trailer tow hitch in service condition?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Is the trailer tow hitch in service condition?',DataCardValue63.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey63.Y + DataCardKey63.Height + 5
+                ZIndex: =2
+
+            ErrorMessage49 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue63.Y + DataCardValue63.Height
+                ZIndex: =3
+
+            StarVisible49 As label:
+                Align: =Align.Center
+                Height: =DataCardKey63.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey63.Y
+                ZIndex: =4
+
+        "'Please describe damagefaults with tow hitch._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question26"
+            Default: =ThisItem.'Please describe damage\faults with tow hitch.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question26")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =29
+            ZIndex: =1
+
+            DataCardKey64 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue64 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey64.Y + DataCardKey64.Height + 5
+                ZIndex: =2
+
+        "'Please describe any other faults or damage._DataCard3' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question27"
+            Default: =ThisItem.'Please describe any other faults or damage.'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question27")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =30
+            ZIndex: =1
+
+            DataCardKey65 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue65 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey65.Y + DataCardKey65.Height + 5
+                ZIndex: =2
+
+        "'Is this vehicle towing a trailer or is there a trailer on site?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question28"
+            Default: =ThisItem.'Is this vehicle towing a trailer or is there a trailer on site?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question28")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue66.Selected
+            Width: =640
+            X: =0
+            Y: =31
+            ZIndex: =1
+
+            DataCardKey66 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue66 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Is this vehicle towing a trailer or is there a trailer on site?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Is this vehicle towing a trailer or is there a trailer on site?',DataCardValue66.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey66.Y + DataCardKey66.Height + 5
+                ZIndex: =2
+
+            ErrorMessage50 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue66.Y + DataCardValue66.Height
+                ZIndex: =3
+
+            StarVisible50 As label:
+                Align: =Align.Center
+                Height: =DataCardKey66.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey66.Y
+                ZIndex: =4
+
+        "'What is the registration number of the trailer?_DataCard4' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question29"
+            Default: =ThisItem.'What is the registration number of the trailer?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question29")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =32
+            ZIndex: =1
+
+            DataCardKey67 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue67 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey67.Y + DataCardKey67.Height + 5
+                ZIndex: =2
+
+        "'Are the trailer tyres including the spare and the wheel nut indicators in good condition?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question30"
+            Default: =ThisItem.'Are the trailer tyres including the spare and the wheel nut indicators in good condition?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question30")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue68.Selected
+            Width: =640
+            X: =0
+            Y: =33
+            ZIndex: =1
+
+            DataCardKey68 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue68 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are the trailer tyres including the spare and the wheel nut indicators in good condition?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are the trailer tyres including the spare and the wheel nut indicators in good condition?',DataCardValue68.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey68.Y + DataCardKey68.Height + 5
+                ZIndex: =2
+
+            ErrorMessage51 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue68.Y + DataCardValue68.Height
+                ZIndex: =3
+
+            StarVisible51 As label:
+                Align: =Align.Center
+                Height: =DataCardKey68.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey68.Y
+                ZIndex: =4
+
+        "'Are the trailer lights, reflectors, plugs and trailer breakaway in service condition?_DataCard2' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question31"
+            Default: =ThisItem.'Are the trailer lights, reflectors, plugs and trailer breakaway in service condition?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question31")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue69.Selected
+            Width: =640
+            X: =0
+            Y: =34
+            ZIndex: =1
+
+            DataCardKey69 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue69 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =70
+                Items: =Choices([@envInspectionVehicleList].'Are the trailer lights, reflectors, plugs and trailer breakaway in service condition?')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(envInspectionVehicleList.'Are the trailer lights, reflectors, plugs and trailer breakaway in service condition?',DataCardValue69.SearchText)
+                SelectMultiple: =false
+                Size: =wrapLabel.Size
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey69.Y + DataCardKey69.Height + 5
+                ZIndex: =2
+
+            ErrorMessage52 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue69.Y + DataCardValue69.Height
+                ZIndex: =3
+
+            StarVisible52 As label:
+                Align: =Align.Center
+                Height: =DataCardKey69.Height
+                Size: =wrapLabel.Size
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey69.Y
+                ZIndex: =4
+
+        "'When was the last service carried out on the trailer?_DataCard2' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Question32"
+            Default: =ThisItem.'When was the last service carried out on the trailer?'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"Question32")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =40
+            Required: =false
+            Width: =640
+            X: =0
+            Y: =35
+            ZIndex: =1
+
+            DataCardKey70 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =wrapLabel.Size
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =wrapLabel.Wrap
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue70 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =wrapLabel.Size
+                Text: =Parent.Default
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey70.Y + DataCardKey70.Height + 5
+                ZIndex: =2
+
+        Attachments_DataCard2 As typedDataCard.attachmentsViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="{Attachments}"
+            Default: =ThisItem.Attachments
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@envInspectionVehicleList],DataSourceInfo.DisplayName,"{Attachments}")
+            Fill: =RGBA(230, 230, 230, 1)
+            Height: =476
+            Required: =false
+            Update: =DataCardValue39.Attachments
+            Width: =639
+            X: =0
+            Y: =36
+            ZIndex: =1
+
+            DataCardKey39 As label:
+                AutoHeight: =true
+                Height: =48
+                Size: =21
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue39 As attachments:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DisplayMode: =Parent.DisplayMode
+                Fill: =textInputBranding.Fill
+                Height: =520
+                IsInDataCard: =true
+                Items: =Parent.Default
+                PaddingBottom: =5
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PaddingRight: =5
+                PaddingTop: =5
+                Size: =21
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey39.Y + DataCardKey39.Height + 5
+                ZIndex: =2
+
+            ErrorMessage34 As label:
+                AutoHeight: =true
+                Height: =10
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =24
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue39.Y + DataCardValue39.Height
+                ZIndex: =3
+
+            StarVisible34 As label:
+                Align: =Align.Center
+                Height: =DataCardKey39.Height
+                Size: =21
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey39.Y
+                ZIndex: =4
+

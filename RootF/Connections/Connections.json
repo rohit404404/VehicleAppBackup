@@ -1,0 +1,38 @@
+{
+  "d04a31d9-4227-4086-97d2-3e465eee4783": {
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1591/1.0.1591.2961/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://viennastory.sharepoint.com/sites/Inspection": {
+        "datasetOverride": {
+          "environmentVariableName": "in_envInspectionSiteURL",
+          "name": "https://viennastory.sharepoint.com/sites/Inspection"
+        },
+        "dataSources": {
+          "envInspectionVehicleList": {
+            "tableName": "02a3d171-bd4c-4b33-b4fd-4f28bc7fcff0",
+            "tableNameOverride": {
+              "environmentVariableName": "in_envInspectionVehicleList",
+              "name": "02a3d171-bd4c-4b33-b4fd-4f28bc7fcff0"
+            }
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "envInspectionVehicleList"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "d04a31d9-4227-4086-97d2-3e465eee4783"
+  }
+}
